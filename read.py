@@ -20,15 +20,8 @@ def parse(inputFile):
             processedLine['remote_ip']=re.search("([0-9]{1,3}\.){3}[0-9]{1,3}",line).group(0)
             #Dictionnary appending works, now we need to generate the whole thing
             
-            processedLine[]=re.search(,line).group(0)
+            processedLine['time']=re.search("\[[0-9]{2}/[A-Z][a-z]*/[0-9]*(:[0-9]{2}){3} \+[0-9]{4}\]",line).group(0)
             
-            processedLine[]=re.search(,line).group(0)
-            
-            processedLine[]=re.search(,line).group(0)
-            
-            processedLine[]=re.search(,line).group(0)
-            
-            processedLine[]=re.search(,line).group(0)
 
             #processedLine[]=re.search(,line).group(0)
             result.append(processedLine)
