@@ -10,20 +10,32 @@ import re
 #A list is made to hold them
 #Dictionnary reset at each line
 
+def reg_check(expression):
+    
+    return type(re.search("^([^ ]+ ){3}\[[^ ]+ [^ ]+\] \"[A-Z]+ /.+ HTTP\/[0-9]\.[0-9]\" ([0-9]+ ){2}\"https?://.+\" \".+\"",expression).group())
+
 def parse(inputFile):
     result=[]
     with open(inputFile, "r") as opened:
         for line in opened:
             #the file is named "opened", in the loop each line is named line
             processedLine={}
-
-            processedLine['remote_ip']=re.search("([0-9]{1,3}\.){3}[0-9]{1,3}",line).group(0)
-            #Dictionnary appending works, now we need to generate the whole thing
             
-            processedLine['time']=re.search("\[[0-9]{2}/[A-Z][a-z]*/[0-9]*(:[0-9]{2}){3} \+[0-9]{4}\]",line).group(0)
-            
+            if reg_check(line) == None:
+                print("Encountered a broken line")
+                result.append("Broken")
+            else:
 
-            #processedLine[]=re.search(,line).group(0)
-            result.append(processedLine)
+                processedLine['remote_ip']=re.search("([0-9]{1,3}\.){3}[0-9]{1,3}",line).group()
+                #Dictionnary appending works, now we need to generate the whole thing
+            
+                processedLine['time']=re.search("[0-9]{2}\/[A-Z][a-z]*\/[0-9]*(:[0-9]{2}){3} [\+\-][0-9]{4}",line).group()
+            
+                processedLine['request']=re.search("\"[A-Z]{3,} ",line).group()[1:-1]
+
+                processedLine['referrer']=re.search("\"https?:\/(/[^ \/]+)+\/?\"",line).group()[1:-1]
+            
+                #processedLine[]=re.search(,line).group()
+                result.append(processedLine)
 
     return result
