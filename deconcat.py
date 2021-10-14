@@ -8,13 +8,49 @@ def whatis (resultat):       #Retroune le résulatat d'un re.search, si c'est vi
     else:
         return resultat.group(0)
 
+def parsing1 (log):                     #Le but de cette fonction est de prendre les 9 éléments qui constituent un log apache de la manière la plus brute possible. A chaque fois qu'on récupère un élément, on croque la ligne (on lui enlève cet élément)
+    with open(log, 'r') as ten:        #On ouvre le fichier ten_logs qui contient les 10 premières lignes de log apache (pour éviter d'en parcourir 50000)
+        elements=[]
+        for ligne in ten:
+            item1 = whatis(re.search('[^ ]* ', ligne))
+            elements.append(item1)
+            ligne = ligne[len(item1):]
+            item2 = whatis(re.search('[^ ]* ', ligne))
+            elements.append(item2)
+            ligne = ligne[len(item2):]
+            item3 = whatis(re.search('[^ ]* ', ligne))
+            elements.append(item3)
+            ligne = ligne[len(item3):]
+            item4 = whatis(re.search("\[[^\]]*\] ", ligne))     #Je suis volontèrement peu séléctif car le format de la date et de l'heure peuvent être modifié
+            elements.append(item4)
+            ligne = ligne[len(item4):]
+            item5 = whatis(re.search('"[^"]*" ', ligne))
+            elements.append(item5)
+            ligne = ligne[len(item5):]
+            item6 = whatis(re.search('[^ ]* ', ligne))
+            elements.append(item6)
+            ligne = ligne[len(item6):]
+            item7 = whatis(re.search('[^ ]* ', ligne))
+            elements.append(item7)
+            ligne = ligne[len(item7):]
+            item8 = whatis(re.search('"[^"]*" ', ligne))
+            elements.append(item8)
+            ligne = ligne[len(item8):]
+            item9 = whatis(re.search('"[^"]*"', ligne))
+            elements.append(item9)
+            ligne = ligne[len(item9):]
+    return elements
+
+print(parsing1("ten_logs"))
+
+
 def parsing (log):
     with open(log, 'r') as ten:        #On ouvre le fichier ten_logs qui contient les 10 premières ligne de log apache (pour éviter d'en parcourir 50000) 
         resultats=[]
         for ligne in ten:                       #pour chaque ligne dans ce fichier on va essayer à l'aide d'expressions régulières de récupérer tous les champs.
             ip=re.search("([0-9]{1,3}\.){3}[0-9]{1,3}", ligne)          #recherche la première adresse IP de la ligne donc a priori celle du client
             #whatis(ip)
-            date = re.search("\[[1-3][0-9]/[A-Z][a-z]{2}/[0-9]{4}(:[0-9]{2}){3} [-\+][0-9]{4}\]", ligne)        # recherche la date selon le format des logs apache
+            date = re.search("\[[1-3][0-9]/[A-Z][a-z]{2}/[0-9]{4}(:[0-9]{2}){3} [\-\+][0-9]{4}\]", ligne)        # recherche la date selon le format des logs apache
             #whatis(date)
             get = re.search('"GET /[^"]*"', ligne)          #Si l'utilisateur a fait un GET, recherche le get fait par l'utilisateur
             #whatis(get)
@@ -56,6 +92,6 @@ def afficher (tableaulog):          #permet d'afficher le contenu du tableau de 
         print()
 
 #afficher(parsing('ten_logs2'))
-afficher(parsing('ten_logs2'))
+#afficher(parsing('ten_logs2'))
 
 
