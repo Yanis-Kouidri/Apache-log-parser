@@ -44,6 +44,20 @@ def parse(inputFile):
                 count=count+1
 
             try:
+                processedLine['response']=re.search("\" [0-9]{3}",line).group()[2:]
+            except:
+                print("Response is wrong in the line : returning Broken or Empty")
+                processedLine['response']="Broken or Empty"
+                count=count+1
+
+            try:
+                processedLine['bytes']=re.search("[0-9]+ \"",line).group()[:-2]
+            except:
+                print("Bytes is wrong in the line : returning Broken or Empty")
+                processedLine['bytes']="Broken or Empty"
+                count=count+1
+
+            try:
                 processedLine['referrer']=re.search("\"https?:\/(/[^ \/]+)+\/?\"",line).group()[1:-1]
             except:
                 print("Referrer is wrong in the line : returning Broken or Empty")
