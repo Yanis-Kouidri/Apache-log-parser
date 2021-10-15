@@ -13,4 +13,4 @@ toRead=str(input("File to process : "))
 parsed=read.parse(toRead)
 #parsed variable is now a list of dictionnaries
 
-print(parsed)
+#print(parsed)
