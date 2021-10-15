@@ -14,10 +14,9 @@ inputName=str(input("File to process : "))
 parsed=read.parse(inputName)
 #parsed variable is now a list of dictionnaries
 
-#print(parsed)
 outputName=str(input("Name of the output (default will be the input file name .json, extension is added automatically) : "))
 
 if outputName == "":
     outputName=inputName
 
-to_json.convert(parsed,outputName, inputName)
+to_json.convert(parsed, outputName, inputName)
