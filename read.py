@@ -64,6 +64,13 @@ def parse(inputFile):
                 processedLine['referrer']="Broken or Empty"
                 count=count+1
 
+            try:
+                processedLine['agent']=re.search("\"[A-Z]{1}[a-z]+\/.+\..+( .+)*\"",line).group()[1:-1]
+            except:
+                print("Agent is wrong in the line : returning Broken or Empty")
+                processedLine['agent']="Broken or Empty"
+                count=count+1
+
                 #processedLine[]=re.search(,line).group()
             result.append(processedLine)
     
