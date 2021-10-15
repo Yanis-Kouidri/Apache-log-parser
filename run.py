@@ -7,10 +7,17 @@
 #read will return a dictionnary per line of logs. We have to store it in a list
 
 import read
+import to_json
 
-toRead=str(input("File to process : "))
+inputName=str(input("File to process : "))
 
-parsed=read.parse(toRead)
+parsed=read.parse(inputName)
 #parsed variable is now a list of dictionnaries
 
 #print(parsed)
+outputName=str(input("Name of the output (default will be the input file name .json, extension is added automatically) : "))
+
+if outputName == "":
+    outputName=inputName
+
+to_json.convert(parsed,outputName, inputName)
