@@ -47,6 +47,8 @@ def parsing1 (log):                     #Le but de cette fonction est de prendre
             ligne = ligne[len(item9):]
             if ligne is not "\n" or "":
                 elements.append("error")
+            else:
+                elements.append("ok")
             #elements.append(ligne)     #la taille de la ligne doit être ici à zéro
             entree.append(elements)
     return entree           #retourne un tableau de tableau composé des neuf champs d'un log apache et eventuellement d'un champ avec error si la ligne n'a pas été totalement parsé
@@ -61,6 +63,8 @@ def afficher2 (tableaulog):          #permet d'afficher le contenu du tableau de
 def afficher3 (tableaulog):          #permet d'afficher le contenu du tableau de dictionnaire retourné par la fonction parsing
     for ligne in tableaulog:
         print(ligne)
+        print()
+
 
 #afficher3(parsing1("hundred_logs"))
 #afficher3(parsing1("apache_logs"))
