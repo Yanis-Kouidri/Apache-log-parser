@@ -21,8 +21,10 @@ def parse(inputFile):
             #the file is named "opened", in the loop each line is named line
             processedLine={}
 
+            cutLine=re.search("(([0-9]*\.){3}[0-9]*).*\[(.*)\].*\"([A-Z]+) .+\" ([0-9]{3}) (.*) \"(.+)\" \"(.+)\"",line)
+
             try:
-                processedLine['remote_ip']=re.search("([0-9]{1,3}\.){3}[0-9]{1,3}",line).group()
+                processedLine['remote_ip']=cutLine.group(1)
                 #Dictionnary appending works, now we need to generate the whole thing
             except:
                 print("IP is wrong in the line : returning Broken or Empty")
@@ -30,42 +32,42 @@ def parse(inputFile):
                 count=count+1
             
             try:
-                processedLine['time']=re.search("[0-9]{2}\/[A-Z][a-z]*\/[0-9]*(:[0-9]{2}){3} [\+\-][0-9]{4}",line).group()
+                processedLine['time']=cutLine.group(3)
             except:
                 print("Time is wrong in the line : returning Broken or Empty")
                 processedLine['time']="Broken or Empty"
                 count=count+1
 
             try:
-                processedLine['request']=re.search("\"[A-Z]{3,} ",line).group()[1:-1]
+                processedLine['request']=cutLine.group(4)
             except:
                 print("Request is wrong in the line : returning Broken or Empty")
                 processedLine['request']="Broken or Empty"
                 count=count+1
 
             try:
-                processedLine['response']=re.search("\" [0-9]{3}",line).group()[2:]
+                processedLine['response']=cutLine.group(5)
             except:
                 print("Response is wrong in the line : returning Broken or Empty")
                 processedLine['response']="Broken or Empty"
                 count=count+1
 
             try:
-                processedLine['bytes']=re.search("[0-9]+ \"",line).group()[:-2]
+                processedLine['bytes']=cutLine.group(6)
             except:
                 print("Bytes is wrong in the line : returning Broken or Empty")
                 processedLine['bytes']="Broken or Empty"
                 count=count+1
 
             try:
-                processedLine['referrer']=re.search("\"https?:\/(/[^ \/]+)+\/?\"",line).group()[1:-1]
+                processedLine['referrer']=cutLine.group(7)
             except:
                 print("Referrer is wrong in the line : returning Broken or Empty")
                 processedLine['referrer']="Broken or Empty"
                 count=count+1
 
             try:
-                processedLine['agent']=re.search("\"[A-Z]{1}[a-z]+\/.+\..+( .+)*\"",line).group()[1:-1]
+                processedLine['agent']=cutLine.group(8)
             except:
                 print("Agent is wrong in the line : returning Broken or Empty")
                 processedLine['agent']="Broken or Empty"
