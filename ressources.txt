@@ -1,0 +1,2 @@
+Différents lien qui peuvent servir :
+	https://httpd.apache.org/docs/2.4/logs.html		définition de la structure d'un log apache
