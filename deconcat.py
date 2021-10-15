@@ -9,6 +9,7 @@ def whatis (resultat):       #Retroune le résulatat d'un re.search, si c'est vi
         return resultat.group(0)
 
 def parsing1 (log):                     #Le but de cette fonction est de prendre les 9 éléments qui constituent un log apache de la manière la général possible. A chaque fois qu'on récupère un élément, on croque la ligne (on lui enlève cet élément)
+#il faudrait le faire en utilisant une seule grosse regexp qui fournit plusieurs résultats
     with open(log, 'r') as ten:        #On ouvre le fichier qui contient les logs apache
         entree=[]       #tableau dans lequel je mets des tableaux de champs
 
@@ -62,7 +63,7 @@ def afficher3 (tableaulog):          #permet d'afficher le contenu du tableau de
         print(ligne)
 
 #afficher3(parsing1("hundred_logs"))
-afficher3(parsing1("apache_logs"))
+#afficher3(parsing1("apache_logs"))
 #afficher3(parsing1("logs_sabotes"))
 #afficher(parsing('ten_logs2'))
 #afficher(parsing('ten_logs2'))
