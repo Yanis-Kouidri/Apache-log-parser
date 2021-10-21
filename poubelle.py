@@ -54,3 +54,6 @@ def afficher (tableaulog):          #permet d'afficher le contenu du tableau de 
                 print(cle+"= ")
         print()
 
+lignejson['request_type']=deconcat.whatis(re.search('(?<=")[^ ]*(?= )', ligne[4]))      #Je récupère l'action effectué (GET, HEAD, POST)
+lignejson['request_what']=deconcat.whatis(re.search('(?<= )[^ ]*(?= )', ligne[4]))      #Je récupère l'action effectué (GET, HEAD, POST)
+lignejson['request_how']=deconcat.whatis(re.search('', ligne[4]))      #Je récupère l'action effectué (GET, HEAD, POST)
