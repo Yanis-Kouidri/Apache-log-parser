@@ -8,6 +8,7 @@ def whatis (resultat):       #Retroune le résulatat d'un re.search, si c'est vi
     else:
         return resultat.group(0)
 
+#il faudrait simplifier tout ça
 def parsing1 (log):                     #Le but de cette fonction est de prendre les 9 éléments qui constituent un log apache de la manière la général possible. A chaque fois qu'on récupère un élément, on croque la ligne (on lui enlève cet élément)
 #il faudrait le faire en utilisant une seule grosse regexp qui fournit plusieurs résultats
     with open(log, 'r') as ten:        #On ouvre le fichier qui contient les logs apache
