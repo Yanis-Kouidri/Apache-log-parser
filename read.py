@@ -21,7 +21,7 @@ def parse(inputFile):
             #the file is named "opened", in the loop each line is named line
             processedLine={}
 
-            cutLine=re.search("(([0-9]*\.){3}[0-9]*).*\[(.*)\].*\"([A-Z]+) .+\" ([0-9]{3}) (.*) \"(.+)\" \"(.+)\"?",line)
+            cutLine=re.search("(([0-9]*\.){3}[0-9]*).*\[(.*)\].*\"([A-Z]+) .+\" ([0-9]{3}) (.*) \"(.+)\" \"([^\"]+)\"?",line)
 
             try:
                 processedLine['remote_ip']=cutLine.group(1)
