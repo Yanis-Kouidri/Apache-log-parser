@@ -1,3 +1,5 @@
 Différents lien qui peuvent servir :
 	https://httpd.apache.org/docs/2.4/logs.html		définition de la structure d'un log apache
 	https://runebook.dev/fr/docs/http/headers/user-agent		Pour savoir comment un user agent est fait et comment détecter le navigateur
+	module intéressant : argparse
+	module pour faire des fenêtres : tkinter
