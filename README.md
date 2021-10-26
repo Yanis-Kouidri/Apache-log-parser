@@ -1,5 +1,9 @@
 # Projet-Python
-Projet scolaire de python, le but est de traiter des logs apache.
-Le fichier deconcat.py contient les fonctions qui permettent de déconcaténer les logs apache
-Le fichier poubelle.py contient toutes les fonctions qui ont été écrites mais qui ont été remplacé par d'autre mieux
-Le fichier json_maker.py permet à partir de la déconcaténation de deconcat.py de créer un fichier json qui a pour chaque ligne un objet json composé de tous les champs demandés quand un log apache
+Projet scolaire de python à l'IUT Réseaux et Télécommunications de l'université Nice Côte d'Azur dans le cadre du module M3206 "Automatisation des tâches d'administration.
+Le but est double.
+D'un côté, nous devons traiter des logs apaches afin d'en faire un fichier .json où chaque objet json de ce .json est un dictionnaire avec les champs d'un log apache.
+Par exemple on retrouve l'adresse ip qui a fait la requête, le code de réponse, la taille du fichier etc.
+Et d'un autre côté, nous devons, à partir du fichier json créé, déterminer les données intéressantes d'un point de vue commercial et de sécurité pour en faire des statistiques.
+Le fichier fonctions.py contient toutes les fonctions nécessaires pour le découpage, la création du json et la statistique.
+Le fichier main.py contient la partie exécution du fichier qui va faire appel aux fonctions de fonctions.py
+

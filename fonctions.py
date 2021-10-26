@@ -102,9 +102,9 @@ def dico_vers_json(liste_de_dico, nom_du_fichier):  # Fonction qui à partir d'u
     # fourni un fichier json où chaque objet est un dico d'un log
     with open(nom_du_fichier,
               'w') as fichier_json:  # On ouvre le fichier dans lequel on va inscrire les lignes au format json
-        print(f"J'ai écrit {len(liste_de_dico)} ligne(s) dans {nom_du_fichier}")
         json.dump(liste_de_dico, fichier_json,
                   indent=4)  # l'indentation permet d'avoir un fichier plus lisible si jamais on doit l'ouvrir à la main
+        print(f"{len(liste_de_dico)} lignes ont été écrites dans {nom_du_fichier}")
 
 
 # dico_vers_json(liste_de_dico_tout, 'mon_json.json') # ligne de test
