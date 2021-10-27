@@ -76,7 +76,7 @@ def repartition(liste_de_liste):  # Fonction qui va attribuer chaque case de la 
         dico_dun_log['referer'] = tableau_dun_log[7]
         dico_dun_log['user_agent'] = tableau_dun_log[8]
         dico_dun_log['system_agent'] = plein_ou_vide(
-            re.search('Linux|Macintosh|Windows|iPhone|SAMSUNG', tableau_dun_log[
+            re.search('Linux|Macintosh|Windows|iPhone|SAMSUNG|[Bb]ot', tableau_dun_log[
                 8]))  # le système du client (il n'y a pas que ces 5 systèmes mais c'est déjà bien)
         dico_dun_log['log_code'] = tableau_dun_log[9]
 
@@ -128,7 +128,7 @@ def json_vers_dico(nom_du_json):  # Fonction qui fait l'inverse de dico_vers_jso
 def compteur(tab_log,
              elem_log):  # fonction qui compte le nombre d'un élément du log
     # (ex : l'element response, on aura donc en sortie un dico avec comme clé 404 et comme valeur le nom
-    stats = {'total': 0}  # la clé
+    stats = {'total': 0, 'type': elem_log}  # la clé
     for un_log in tab_log:  # Je rentre comme clé dans le dico stats chaque type d'erreur possible
         stats[un_log[elem_log]] = 0
     cles = stats.keys()
@@ -159,5 +159,32 @@ def pourcentage(
     return pourcent
 
 
-#pourcent_response = pourcentage(code_retour)
-#print(pourcent_response)
+def affichage_stat(stats):  # fonction qui affiche les stats après un compteur
+    print(f"Sur un total de {stats['total']} champs {stats['type']}")
+    for code, nombre in stats.items():
+        if code != 'total' and code != 'type':
+            print(f"Il y a {nombre} {stats['type']} {code}")
+
+
+def def_code_retour():
+    print()
+    print("Définition des codes de réponse les plus importants :")
+    print("Les réponses ayant un code 200 sont les réponses OK, elles doivent être très majoritaires")
+    print("Les réponses ayant un code 404 indiquent que l'utilisateur tente d'accéder à un fichier qui n'existe pas"
+          "Si la plupart de ces codes 404 se concentrent sur un même objet, cela veut probablement dire qu'il existait"
+          "auparavant et qu'il a été déplacé, dans ce cas il faudrait mettre une redirection vers le nouvel objet là où"
+          " les codes 404 tentent d'acceder")
+    print("Les réponses ayant un code 403 indiquent que l'utilisateur tente d'acceder à un objet auquel il ne devrait"
+          " pas (forbidden). S'il y en a beaucoup de la même adresse IP cela est très suspect.")
+    print("Les réponses ayant un code 500 indiquent une erreur de la part du serveur. Il ne doit pas y en avoir, toutes"
+          " erreur 500 est un client de moins sur notre site. Elles sont donc très critiques.")
+
+
+# pourcent_response = pourcentage(code_retour)
+# print(pourcent_response)
+
+def def_log_code():
+    print()
+    print("Les log_code OK correspondent aux logs qui ont pu être correctement déconcaténé donc des logs valides")
+    print("Les log_code KO correspondent aux logs qui n'ont pas pu être déconcaténé donc qui ont mal été générés par "
+          "le serveur. Cela peut arriver, mais s'il y en a trop cela est inquiétant quant au serveur")
