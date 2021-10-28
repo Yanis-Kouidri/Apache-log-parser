@@ -10,15 +10,15 @@ parser.add_argument("json_file",
                     help="Le chemin et le nom du fichier que le programme va créer"
                          " si l'argument -l est utilisé, "
                          "sinon le json que le programme va lire pour afficher des statistiques,"
-                         " ce sera un fichier json Ex : /home/Documents/mon_json.json", type=str)
+                         " ce sera un fichier json. Ex : /home/Documents/mon_json.json", type=str)
 # L\'argument obligatoire, sans autre argument le programme va afficher les stats classique de ce json
 
-parser.add_argument("-l", "--log_file", help="Le chemin et le nom du fichier contenant les logs apaches brutes"
+parser.add_argument("-l", "--log_file", help="Le chemin et le nom du fichier contenant les logs apaches brutes."
                                              " Ex : /var/log/apache/log", type=str)
 
-parser.add_argument("-s", "--stats", help="Permet d'afficher des statistiques à partir du json créé ou déjà existant,"
+parser.add_argument("-s", "--stats", help="Permet d'afficher des statistiques à partir du json créé ou déjà existant."
                     , action="store_true")
-parser.add_argument("-p", "--pourcent", help="Permet d'afficher des statistiques sous forme de pourcentage"
+parser.add_argument("-p", "--pourcent", help="Permet d'afficher des statistiques sous forme de pourcentages."
                     , action="store_true")
 args = parser.parse_args()
 

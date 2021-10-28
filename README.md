@@ -8,3 +8,29 @@ Et d'un autre côté, nous devons, à partir du fichier json créé, déterminer
 Le fichier fonctions.py contient toutes les fonctions nécessaires pour le découpage, la création du json et la statistique.
 Le fichier main.py contient la partie exécution du fichier qui va faire appel aux fonctions de fonctions.py
 
+Exemple d'utilisation du programme dans un terminal :
+Pour connaitre les arguments et leurs fonctions :
+> /Projet-Python $ python3 main.py -h
+
+Pour faire un json à partir de logs :
+> /Projet-Python $ python3 main.py -l mes_logs mon_json
+
+Pour afficher des statistiques à partir d'un json déjà existant :
+> /Projet-Python $ python3 main.py mon_json -s
+
+NB : si aucun argument facultatif n'est précisé, alors le programme va afficher les statistiques à partir du json.
+Donc :
+> /Projet-Python $ python3 main.py mon_json 
+
+Revient à :
+> /Projet-Python $ python3 main.py mon_json -s
+
+Pour afficher des statistiques sous forme de pourcentage :
+> /Projet-Python $ python3 main.py mon_json -p
+
+Pour faire un json à partir de logs et afficher les statistiques classiques à partir de ce json :
+> /Projet-Python $ python3 main.py -l mes_logs mon_json -s
+
+Pour faire un json à partir de logs et afficher les statistiques sous forme de pourcentage à partir de ce json :
+> /Projet-Python $ python3 main.py -l mes_logs mon_json -p
+
