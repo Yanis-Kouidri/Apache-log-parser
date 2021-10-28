@@ -88,17 +88,6 @@ def repartition(liste_de_liste):  # Fonction qui va attribuer chaque case de la 
     # Exemple : ip = 88.54.17.154
 
 
-# liste_de_dico10 = repartition(liste_de_liste10) # lignes de test
-# liste_de_dico_tout = repartition(liste_de_liste_tout)
-
-
-# for line in (repartition(deconcatenation('logs_sabotes'))):
-#    print(line)
-
-
-# for line in (repartition(liste_de_liste10)):
-#    print(line)
-
 def dico_vers_json(liste_de_dico, nom_du_fichier):  # Fonction qui à partir d'une liste de dictionnaires
     # fourni un fichier json où chaque objet est un dico d'un log
     with open(nom_du_fichier,
@@ -108,22 +97,11 @@ def dico_vers_json(liste_de_dico, nom_du_fichier):  # Fonction qui à partir d'u
         print(f"{len(liste_de_dico)} lignes ont été écrites dans {nom_du_fichier}")
 
 
-# dico_vers_json(liste_de_dico_tout, 'mon_json.json') # ligne de test
-
-
 def json_vers_dico(nom_du_json):  # Fonction qui fait l'inverse de dico_vers_json
     # à partir d'un json elle fait une liste de dico
     with open(nom_du_json, 'r') as le_json:
         dic_log = json.load(le_json)
     return dic_log
-
-
-# liste_de_dico_nouv = json_vers_dico('mon_json.json') # ligne de test
-
-
-# print(liste_de_dico_nouv)
-# for dico in liste_de_dico_nouv:
-#    print(dico)
 
 
 def compteur(tab_log,
@@ -140,10 +118,6 @@ def compteur(tab_log,
                 stats[cle] = stats[cle] + 1
                 stats['total'] = stats['total'] + 1  # Je compte le nombre total de log ayant un code de retour
     return stats
-
-
-# code_retour = compteur(liste_de_dico_nouv, 'response')
-# print(code_retour)
 
 
 def pourcentage(
@@ -195,17 +169,20 @@ def calcul_poids(liste_dico):  # fonction qui fournit des stats à partir de l\'
     return stats_poids
 
 
-def affichage_stat_poids(stats_poids):
+def affichage_stat_poids(stats_poids):  # Fonction qui affiche les résultats de calcul_poids
     for nom, valeur in stats_poids.items():
         if nom == "Variance" or nom == "Écart-type":
             print(f"{nom} = {valeur}")
+        elif nom == 'Nombre d\'objets':
+            print(f"{nom} = {valeur} objets")
+
         else:
             print(f"{nom} = {valeur} octets")
 
 
-def def_code_retour():
+def def_code_retour():  # brève explication sur les codes de réponse
     print()
-    print("Définition des codes de réponse les plus importants :")
+    print("Définition des codes de réponse les plus importants (pour plus d\'information voir la RFC2616 chapitre 10 :")
     print("Les réponses ayant un code 200 sont les réponses OK, elles doivent être très majoritaires")
     print("Les réponses ayant un code 404 indiquent que l\'utilisateur tente d\'accéder à un fichier qui n\'existe pas"
           "Si la plupart de ces codes 404 se concentrent sur un même objet, cela veut probablement dire qu\'il existait"
@@ -218,17 +195,14 @@ def def_code_retour():
           " erreur 500 est un client de moins sur notre site. Elles sont donc très critiques.")
 
 
-# pourcent_response = pourcentage(code_retour)
-# print(pourcent_response)
-
-def def_log_code():
+def def_log_code():  # brève explication sur le champ log_code
     print()
     print("Les log_code OK correspondent aux logs qui ont pu être correctement déconcaténé donc des logs valides")
     print("Les log_code KO correspondent aux logs qui n\'ont pas pu être déconcaténé donc qui ont mal été générés par "
           "le serveur. Cela peut arriver, mais s\'il y en a trop cela est inquiétant quant au serveur")
 
 
-def def_system_agent():
+def def_system_agent():  # brève explication sur le champ system_agent
     print()
     print("Ces statistiques peuvent être intéressantes notamment pour savoir s\'il y a beaucoup de mobiles qui"
           " consultent le site web")
