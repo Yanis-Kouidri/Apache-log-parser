@@ -5,6 +5,7 @@
 
 import re
 import json
+import statistics
 
 
 def plein_ou_vide(search):  # Petite fonction qui nous dis si une regexp est un succès ou non
@@ -60,7 +61,7 @@ def repartition(liste_de_liste):  # Fonction qui va attribuer chaque case de la 
         dico_dun_log['remote_ip'] = tableau_dun_log[0]
         dico_dun_log['client_id'] = tableau_dun_log[1]
         dico_dun_log['user_id'] = tableau_dun_log[2]
-        dico_dun_log['date'] = tableau_dun_log[3]
+        dico_dun_log['time'] = tableau_dun_log[3]
         dico_dun_log['request'] = tableau_dun_log[4]
 
         request_champs = re.search('"(\S*) (\S*) ([^"]*)"', tableau_dun_log[
@@ -72,7 +73,7 @@ def repartition(liste_de_liste):  # Fonction qui va attribuer chaque case de la 
                 2)  # Je rentre le fichier demandé (dans le cas d'un GET)
             dico_dun_log['request_how'] = request_champs.group(3)  # Je rentre la version du protocole HTTP utilisé
         dico_dun_log['response'] = tableau_dun_log[5]  # Code de réponse
-        dico_dun_log['object_size'] = tableau_dun_log[6]  # taille de l'objet demandé (vide si ce n'est pas un GET)
+        dico_dun_log['bytes'] = tableau_dun_log[6]  # taille de l'objet demandé (vide si ce n'est pas un GET)
         dico_dun_log['referer'] = tableau_dun_log[7]
         dico_dun_log['user_agent'] = tableau_dun_log[8]
         dico_dun_log['system_agent'] = plein_ou_vide(
@@ -151,11 +152,13 @@ def pourcentage(
     # exemple : cle = '404' valeur = 35 (il y a donc 35 erreurs 404)
     # La fonction calcule donc le pourcentage d'erreurs 404 par rapport au total des requêtes
     # Elle fonctionne de pair avec compteur
-    pourcent = {}
+    pourcent = {"type": stats["type"]}
     total = stats['total']
+
     for code, nombre in stats.items():
-        pourcent[code] = round((nombre / total) * 100,
-                               2)  # round permet d'arondir le pourcentage 2 chiffres après la virgule
+        if code != "type":
+            pourcent[code] = round((nombre / total) * 100,
+                                   2)  # round permet d'arondir le pourcentage 2 chiffres après la virgule
     return pourcent
 
 
@@ -166,16 +169,51 @@ def affichage_stat(stats):  # fonction qui affiche les stats après un compteur
             print(f"Il y a {nombre} {stats['type']} {code}")
 
 
+def affichage_stat_pourcent(stats):  # fonction qui affiche les stats après un compteur
+    print(f"Sur un total de {stats['total']} % de champs {stats['type']}")
+    for code, nombre in stats.items():
+        if code != 'total' and code != 'type':
+            print(f"Il y a {nombre} % de {stats['type']} {code}")
+
+
+def calcul_poids(liste_dico):  # fonction qui fournit des stats à partir de l\'élément bytes
+    liste_byte = []
+    for dico in liste_dico:
+        if dico['bytes'] != '-':
+            liste_byte.append(int(dico['bytes']))
+    mediane = statistics.median(liste_byte)
+    moyenne = round(statistics.fmean(liste_byte))
+    nb_objet = len(liste_byte)
+    total = sum(liste_byte)
+    variance = round(statistics.variance(liste_byte, moyenne))
+    ecart_type = round(statistics.stdev(liste_byte, moyenne))
+    minimum = min(liste_byte)
+    maximum = max(liste_byte)
+    stats_poids = {"Somme de tous les objets": total, "Nombre d'objets": nb_objet, "Moyenne": moyenne,
+                   "Médiane": mediane, "Variance": variance,
+                   "Écart-type": ecart_type, "Plus petit objet": minimum, "Plus grand objet": maximum}
+    return stats_poids
+
+
+def affichage_stat_poids(stats_poids):
+    for nom, valeur in stats_poids.items():
+        if nom == "Variance" or nom == "Écart-type":
+            print(f"{nom} = {valeur}")
+        else:
+            print(f"{nom} = {valeur} octets")
+
+
 def def_code_retour():
     print()
     print("Définition des codes de réponse les plus importants :")
     print("Les réponses ayant un code 200 sont les réponses OK, elles doivent être très majoritaires")
-    print("Les réponses ayant un code 404 indiquent que l'utilisateur tente d'accéder à un fichier qui n'existe pas"
-          "Si la plupart de ces codes 404 se concentrent sur un même objet, cela veut probablement dire qu'il existait"
-          "auparavant et qu'il a été déplacé, dans ce cas il faudrait mettre une redirection vers le nouvel objet là où"
-          " les codes 404 tentent d'acceder")
-    print("Les réponses ayant un code 403 indiquent que l'utilisateur tente d'acceder à un objet auquel il ne devrait"
-          " pas (forbidden). S'il y en a beaucoup de la même adresse IP cela est très suspect.")
+    print("Les réponses ayant un code 404 indiquent que l\'utilisateur tente d\'accéder à un fichier qui n\'existe pas"
+          "Si la plupart de ces codes 404 se concentrent sur un même objet, cela veut probablement dire qu\'il existait"
+          "auparavant et qu\'il a été déplacé,"
+          " dans ce cas il faudrait mettre une redirection vers le nouvel objet là où"
+          " les codes 404 tentent d\'accéder")
+    print("Les réponses ayant un code 403 indiquent que l\'utilisateur tente d\'acceder à un objet auquel il ne devrait"
+          " pas (forbidden). S\'il y en a beaucoup de la même adresse IP cela est très suspect.")
     print("Les réponses ayant un code 500 indiquent une erreur de la part du serveur. Il ne doit pas y en avoir, toutes"
           " erreur 500 est un client de moins sur notre site. Elles sont donc très critiques.")
 
@@ -186,5 +224,11 @@ def def_code_retour():
 def def_log_code():
     print()
     print("Les log_code OK correspondent aux logs qui ont pu être correctement déconcaténé donc des logs valides")
-    print("Les log_code KO correspondent aux logs qui n'ont pas pu être déconcaténé donc qui ont mal été générés par "
-          "le serveur. Cela peut arriver, mais s'il y en a trop cela est inquiétant quant au serveur")
+    print("Les log_code KO correspondent aux logs qui n\'ont pas pu être déconcaténé donc qui ont mal été générés par "
+          "le serveur. Cela peut arriver, mais s\'il y en a trop cela est inquiétant quant au serveur")
+
+
+def def_system_agent():
+    print()
+    print("Ces statistiques peuvent être intéressantes notamment pour savoir s\'il y a beaucoup de mobiles qui"
+          " consultent le site web")
