@@ -156,7 +156,7 @@ def calcul_poids(liste_dico):  # fonction qui fournit des stats à partir de l\'
         if dico['bytes'] != '-':
             liste_byte.append(int(dico['bytes']))
     mediane = statistics.median(liste_byte)
-    moyenne = round(statistics.fmean(liste_byte))
+    moyenne = round(statistics.mean(liste_byte))
     nb_objet = len(liste_byte)
     total = sum(liste_byte)
     variance = round(statistics.variance(liste_byte, moyenne))
