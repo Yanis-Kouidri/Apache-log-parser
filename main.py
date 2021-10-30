@@ -1,4 +1,4 @@
-# !/usr/bin/python3
+#!/usr/bin/python3
 
 import argparse  # Module qui permet de passer des arguments, très pratique
 import os   # Je l'utilise pour voir si un fichier existe
