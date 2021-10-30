@@ -34,3 +34,6 @@ Pour faire un json à partir de logs et afficher les statistiques classiques à 
 Pour faire un json à partir de logs et afficher les statistiques sous forme de pourcentage à partir de ce json :
 > /Projet-Python $ python3 main.py -l mes_logs mon_json -p
 
+# Autres fichiers
+
+apache_logs est un fichier de 10 000 logs apache, ten_logs et hundred_logs sont respectivement les 10 et 100 premières logs du fichier apache_logs. logs_sabotes est un fichier avec quelques logs volontèrement sabotées afin de vérifier la rebustesse de mon programme. 
