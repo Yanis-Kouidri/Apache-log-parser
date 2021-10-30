@@ -37,3 +37,5 @@ Pour faire un json à partir de logs et afficher les statistiques sous forme de 
 # Autres fichiers
 
 apache_logs est un fichier de 10 000 logs apache, ten_logs et hundred_logs sont respectivement les 10 et 100 premières logs du fichier apache_logs. logs_sabotes est un fichier avec quelques logs volontèrement sabotées afin de vérifier la rebustesse de mon programme. 
+ressources.txt est un fichier texte qui contient quelques liens vers des ressources sur internet très utiles pour ce projet.
+Presentation_projet_python.pptx est le fichier utilisé lors de la présentation de notre projet.
